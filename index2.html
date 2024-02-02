@@ -187,8 +187,8 @@
       }
 
       // Postal Code validation: Exactly 5 numbers
-      if (!/^[0-9]{5}$/.test(postalCode)) {
-        errorMessage.innerText = "Postal Code should contain exactly 5 numbers";
+      if (!/^[0-9]{6}$/.test(postalCode)) {
+        errorMessage.innerText = "Postal Code should contain exactly 6 numbers";
         return false;
       }
       if (fullName === "" || email === "" || password === "" || phoneNumber === "" || birthDate === "" || gender === null ||
