@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+      background-color: #e3fcf9; /* AMOLED Grey */
+      color: #ffffff;
+    }
+
+    form {
+      display: inline-block;
+      text-align: left;
+      background-color: #000000; /* AMOLED Grey */
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    input, select {
+      margin-bottom: 10px;
+      padding: 8px;
+      width: 100%;
+      background-color: #1e1e1e; /* Slightly brighter grey */
+      color: #fff;
+      border: none;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #00cc99; /* Teal */
+      color: rgb(0, 0, 0);
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #00b386; /* Darker Teal */
+    }
+
+    .error-message {
+      color: #ff0000; /* Red color for error messages */
+    }
+
+    /* Add the following style for inline radio buttons */
+    input[type="radio"] {
+      display: none;
+    }
+
+    .total{
+      border-style: solid;
+      border-color: 3px solid rgb(255, 255, 255);
+      border-radius:5px;
+    }
+
+    /* Optional: Add a margin between the radio buttons and their labels */
+    .gender-options label {
+      display: block;
+      margin-bottom: 10px; /* Added space between labels */
+      position: relative;
+      padding-left: 30px;
+      cursor: pointer;
+      line-height: 20px;
+    }
+
+    .gender-options label::before {
+      content: '';
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background-color: #1e1e1e; /* Slightly brighter grey */
+      position: absolute;
+      left: 0;
+      top: 2px;
+      border-radius: 50%;
+      border: 2px solid #ffffff; /* White border for the radio button */
+    }
+
+    /* Style for checked state of radio button */
+    .gender-options input:checked + label::before {
+      background-color: #3498db; /* Blue color inside the button when selected */
+    }
+  </style>
+</head>
+<body>
+  <div class="total">
+    <form onsubmit="return validateForm()">
+      <h2 style="color: #fff;">Registration Form</h2>
+
+      <label for="fullName">Full Name:</label><br>
+      <input type="text" id="fullName" name="fullName" required pattern="[A-Za-z\s]+" title="Only alphabets allowed"><br>
+
+      <label for="email">Email Address:</label><br>
+      <input type="email" id="email" name="email" required><br>
+
+      <label for="password">Password:</label><br>
+      <input type="password" id="password" name="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+             title="At least 8 characters, with at least one uppercase letter, one lowercase letter, one number, and one special character"><br>
+
+      <label for="phoneNumber">Phone Number:</label><br>
+      <input type="tel" id="phoneNumber" name="phoneNumber" required pattern="[0-9]+" title="Only numbers allowed"><br>
+
+      <label for="birthDate">Birth Date (dd-mm-yyyy):</label><br>
+      <input type="text" id="birthDate" name="birthDate" pattern="\d{2}-\d{2}-\d{4}" placeholder="dd-mm-yyyy" required title="Enter a valid date (dd-mm-yyyy)"><br>
+
+      <label>Gender:</label><br>
+
+      <div class="gender-options">
+        <input type="radio" id="male" name="gender" value="male" required>
+        <label for="male">Male</label>
+      </div>
+
+      <div class="gender-options">
+        <input type="radio" id="female" name="gender" value="female" required>
+        <label for="female">Female</label>
+      </div>
+
+      <div class="gender-options">
+        <input type="radio" id="preferNotToSay" name="gender" value="preferNotToSay" required>
+        <label for="preferNotToSay">Prefer not to say</label>
+      </div><br>
+
+      <label for="address">Address:</label><br>
+      <input type="text" id="address" name="address" placeholder="Street Address" required><br>
+      <input type="text" id="address2" name="address2" placeholder="Street Address Line 2"><br>
+
+      <label for="country">Country:</label><br>
+      <input type="text" id="country" name="country" required><br>
+
+      <label for="state">State:</label><br>
+      <input type="text" id="state" name="state" required><br>
+
+      <label for="city">City:</label><br>
+      <input type="text" id="city" name="city" required><br>
+
+      <label for="postalCode">Postal Code:</label><br>
+      <input type="text" id="postalCode" name="postalCode" required pattern="[0-9]{5}" title="Enter a valid 5-digit postal code"><br>
+
+      <span class="error-message" id="errorMessage"></span><br>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    function validateForm() {
+      var fullName = document.getElementById("fullName").value;
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+      var phoneNumber = document.getElementById("phoneNumber").value;
+      var birthDate = document.getElementById("birthDate").value;
+      var gender = document.querySelector('input[name="gender"]:checked');
+      var address = document.getElementById("address").value;
+      var country = document.getElementById("country").value;
+      var state = document.getElementById("state").value;
+      var city = document.getElementById("city").value;
+      var postalCode = document.getElementById("postalCode").value;
+      var errorMessage = document.getElementById("errorMessage");
+
+      // Full Name validation: Alphabets only
+      if (!/^[A-Za-z\s]+$/.test(fullName)) {
+        errorMessage.innerText = "Full Name should contain only alphabets";
+        return false;
+      }
+
+      // Password validation: At least 8 characters, with at least one uppercase letter, one lowercase letter, one number, and one special character
+      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
+        errorMessage.innerText = "Password should be at least 8 characters, with at least one uppercase letter, one lowercase letter, one number, and one special character";
+        return false;
+      }
+
+      // Phone Number validation: Numbers only
+      if (!/^[0-9]+$/.test(phoneNumber)) {
+        errorMessage.innerText = "Phone Number should contain only numbers";
+        return false;
+      }
+
+      // Birth Date validation: Correct format
+      if (!/\d{2}-\d{2}-\d{4}/.test(birthDate)) {
+        errorMessage.innerText = "Enter a valid date in the format dd-mm-yyyy";
+        return false;
+      }
+
+      // Postal Code validation: Exactly 5 numbers
+      if (!/^[0-9]{5}$/.test(postalCode)) {
+        errorMessage.innerText = "Postal Code should contain exactly 5 numbers";
+        return false;
+      }
+
+      // Other validations can be added based on requirements
+
+      // Basic validation example, you can add more specific validations as needed
+      if (fullName === "" || email === "" || password === "" || phoneNumber === "" || birthDate === "" || gender === null ||
+          address === "" || country === "" || state === "" || city === "" || postalCode === "") {
+        errorMessage.innerText = "All fields must be filled out";
+        return false;
+      }
+
+      // If everything is valid, you can submit the form
+      errorMessage.innerText = "";
+      return true;
+    }
+  </script>
+</body>
+</html>
